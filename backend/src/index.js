@@ -29,7 +29,7 @@ app.use('/api/books',bookRoute)
 
 connectDB()
     .then(() => {
-        app.listen(PORT,'0.0.0.0', () => {
+        app.listen(PORT, () => {
             console.log(`server is running on PORT: ${PORT}`);
         })
     })
