@@ -123,4 +123,30 @@ router.delete('/:id', protectRoute, async (req, res) => {
         })
     }
 })
+
+// UPDATE BOOK
+router.put("/books/:id", protectRoute, async (req, res) => {
+  try {
+    const { title, caption, rating, image } = req.body;
+
+    const book = await Book.findById(req.params.id);
+
+    if (!book) return res.status(404).json({ message: "Book not found" });
+
+    if (book.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    book.title = title;
+    book.caption = caption;
+    book.rating = rating;
+    book.image = image;
+
+    await book.save();
+
+    res.json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 export default router;
